@@ -8,12 +8,12 @@ import About from './../About';
 class AppMenu extends Component {
     render() {
     let {
-          drawer
+          app
     } = this.props;
 
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
-                <About style={{margin: 10, fontSize: 15, textAlign: 'left'}} title="About" drawer={drawer}/>
+                <About style={{margin: 10, fontSize: 15, textAlign: 'left'}} title="About" app={app}/>
             </View>
         )
     }

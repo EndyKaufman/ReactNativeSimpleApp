@@ -1,20 +1,33 @@
 import React, { Component } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
-import AboutModal from './About/Modal';
+import {MyModal} from './Components';
 
 class About extends Component {
   render() {
     let {
           icon,
           title,
-          drawer
+          app
     } = this.props;
 
     return (
       <View style={{marginTop: 22}}>
-        <AboutModal icon={icon} title={title} drawer={drawer} ref={'MODAL'}/>
-        <TouchableHighlight onPress={() => {this.refs['MODAL'].show();}}>
+        <MyModal 
+          app={app} 
+          ref={(modal)=>{this.modal=modal}} 
+          contentRender={()=>( 
+            <View>         
+              <Text>About this app!</Text>
+              <TouchableHighlight onPress={() => {
+                this.modal.toggle()
+              }}>
+                <Text>Hide</Text>
+              </TouchableHighlight>
+            </View>
+          )}
+        />
+        <TouchableHighlight onPress={() => {this.modal.show();}}>
           <Text>{title}</Text>
         </TouchableHighlight>
       </View>

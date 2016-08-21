@@ -5,16 +5,24 @@ import AppContent from './App/Content';
 import AppMenu from './App/Menu';
 
 class App extends Component {
-  render() {
+  showMenu(){
+    this.drawer.openDrawer();
+  }  
+
+  hideMenu(){
+    this.drawer.closeDrawer();
+  }  
+  
+  render() {  
     return (
       <DrawerLayoutAndroid
-        ref={'DRAWER'}
+        ref={(drawer)=>{this.drawer=drawer}} 
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={()=>(
-          <AppMenu drawer={this.refs['DRAWER']}/>
+          <AppMenu app={this}/>
           )}>
-        <AppContent drawer={this.refs['DRAWER']}/>
+        <AppContent app={this}/>
       </DrawerLayoutAndroid>
     )
   }
