@@ -1,24 +1,23 @@
-import React, { Component } from 'react'
-import { DrawerLayoutAndroid } from 'react-native'
+import React, { Component } from 'react';
+import { DrawerLayoutAndroid } from 'react-native';
 
-import Page from './Start/Page'
-import Menu from './Start/Menu'
-
-const styles = require('./styles.js')
+import StartPage from './Start/Page';
+import StartMenu from './Start/Menu';
 
 class App extends Component {
   render() {
     return (
       <DrawerLayoutAndroid
+        ref={'DRAWER'}
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={()=>(
-          <Menu/>
+          <StartMenu drawer={this.refs['DRAWER']}/>
           )}>
-        <Page/>
+        <StartPage drawer={this.refs['DRAWER']}/>
       </DrawerLayoutAndroid>
     )
   }
 }
 
-export default App
+export default App;

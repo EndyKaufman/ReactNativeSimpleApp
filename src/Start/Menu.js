@@ -1,17 +1,22 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {
     Text,
     View
-} from 'react-native'
+} from 'react-native';
+import AboutModal from './../About/Modal';
 
-class Menu extends Component {
+class StartMenu extends Component {
     render() {
+    let {
+          drawer
+    } = this.props;
+
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
-                <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
+                <AboutModal style={{margin: 10, fontSize: 15, textAlign: 'left'}} title="About" drawer={drawer}/>
             </View>
         )
     }
 }
 
-export default Menu
+export default StartMenu;

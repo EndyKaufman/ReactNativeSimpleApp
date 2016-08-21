@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {
     Text,
     View
-} from 'react-native'
+} from 'react-native';
 
-class Page extends Component {
+class StartPage extends Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center' }}>
@@ -15,4 +15,4 @@ class Page extends Component {
     }
 }
 
-export default Page
+export default StartPage;
