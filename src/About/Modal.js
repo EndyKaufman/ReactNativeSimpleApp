@@ -13,6 +13,18 @@ class AboutModal extends Component {
     this.setState({modalVisible: visible});
   }
 
+  show(){
+    this.setModalVisible(true)
+  }
+
+  hide(){
+    this.setModalVisible(false)
+  }
+
+  toggle(){
+    this.setModalVisible(!this.state.modalVisible)
+  }
+
   render() {
     let {
           icon,
@@ -20,34 +32,24 @@ class AboutModal extends Component {
     } = this.props;
 
     return (
-      <View style={{marginTop: 22}}>
         <Modal
           animationType={"slide"}
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.");this.setModalVisible(false);}}
+          onRequestClose={() => {alert("Modal has been closed.");this.hide();}}
           >
          <View style={{marginTop: 22}}>
           <View>
             <Text>About this app!</Text>
 
             <TouchableHighlight onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
+              this.toggle()
             }}>
               <Text>Hide</Text>
             </TouchableHighlight>
-
           </View>
          </View>
         </Modal>
-
-        <TouchableHighlight onPress={() => {
-          this.setModalVisible(true);
-        }}>
-          <Text>{title}</Text>
-        </TouchableHighlight>
-
-      </View>
     );
   }
 }

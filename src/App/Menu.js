@@ -3,9 +3,9 @@ import {
     Text,
     View
 } from 'react-native';
-import AboutModal from './../About/Modal';
+import About from './../About';
 
-class StartMenu extends Component {
+class AppMenu extends Component {
     render() {
     let {
           drawer
@@ -13,10 +13,10 @@ class StartMenu extends Component {
 
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
-                <AboutModal style={{margin: 10, fontSize: 15, textAlign: 'left'}} title="About" drawer={drawer}/>
+                <About style={{margin: 10, fontSize: 15, textAlign: 'left'}} title="About" drawer={drawer}/>
             </View>
         )
     }
 }
 
-export default StartMenu;
+export default AppMenu;

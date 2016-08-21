@@ -4,7 +4,7 @@ import {
     View
 } from 'react-native';
 
-class StartPage extends Component {
+class AppContent extends Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center' }}>
@@ -15,4 +15,4 @@ class StartPage extends Component {
     }
 }
 
-export default StartPage;
+export default AppContent;

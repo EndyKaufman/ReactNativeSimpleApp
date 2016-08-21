@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { DrawerLayoutAndroid } from 'react-native';
 
-import StartPage from './Start/Page';
-import StartMenu from './Start/Menu';
+import AppContent from './App/Content';
+import AppMenu from './App/Menu';
 
 class App extends Component {
   render() {
@@ -12,9 +12,9 @@ class App extends Component {
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={()=>(
-          <StartMenu drawer={this.refs['DRAWER']}/>
+          <AppMenu drawer={this.refs['DRAWER']}/>
           )}>
-        <StartPage drawer={this.refs['DRAWER']}/>
+        <AppContent drawer={this.refs['DRAWER']}/>
       </DrawerLayoutAndroid>
     )
   }
