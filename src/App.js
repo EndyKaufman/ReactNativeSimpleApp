@@ -1,37 +1,22 @@
 import React, { Component } from 'react';
 import { DrawerLayoutAndroid, Text, View, TouchableHighlight } from 'react-native';
 
+import {MyDrawer} from './Controls';
+
 import {About} from './Modals';
+import {Start} from './Layouts';
 
 class App extends Component {
-  showMenu() {
-    this.drawer.openDrawer();
-  }
-
-  hideMenu() {
-    this.drawer.closeDrawer();
-  }
-
   render() {
-    var navigationView = (
-      <About app={this}>
-        <Text>About</Text>
-      </About>
-    );
-    var layout = (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>Hello</Text>
-        <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>World!</Text>
-      </View>
+    var navigation = (
+      <About app={this}/>
     );
     return (
-      <DrawerLayoutAndroid
+      <MyDrawer
         ref={(drawer) => { this.drawer = drawer } }
-        drawerWidth={300}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
-        {layout}
-      </DrawerLayoutAndroid>
+        navigation={navigation}>
+        <Start/>
+      </MyDrawer>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, View } from 'react-native';
+import { Modal, View, Text, TouchableHighlight } from 'react-native';
 
 class MyModal extends Component {
 
@@ -9,7 +9,7 @@ class MyModal extends Component {
   }
 
   _setModalVisible(visible) {
-    this.props.app.hideMenu();
+    this.props.app.drawer.hideMenu();
     this.setState({ modalVisible: visible });
   }
 
@@ -27,21 +27,27 @@ class MyModal extends Component {
 
   render() {
     let {
+      app,
+      title,
       children
     } = this.props;
     return (
-      <Modal
-        ref={(modal) => { this.modal = modal } }
-        animationType={"slide"}
-        transparent={false}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          this.hide();
-        } }>
-        <View>
-          {children}
-        </View>
-      </Modal>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.hide();
+          } }>
+          <View>
+            {children}
+          </View>
+        </Modal>
+        <TouchableHighlight onPress={() => { this.show(); } }>
+          <Text>{title}</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }

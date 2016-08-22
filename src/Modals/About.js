@@ -5,21 +5,15 @@ import {MyModal} from './../Controls';
 class About extends Component {
   render() {
     let {
-      app,
-      children
+      app
     } = this.props;
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <MyModal ref={(modal) => { this.modal = modal } } app={app}>
-          <Text>About this app!</Text>
-          <TouchableHighlight onPress={() => { this.modal.toggle() } }>
-            <Text>Hide</Text>
-          </TouchableHighlight>
-        </MyModal>
-        <TouchableHighlight onPress={() => { this.modal.show(); } }>
-          {children}
+      <MyModal app={app} title="About" ref={(modal) => { this.modal = modal } }>
+        <Text>About this app!</Text>
+        <TouchableHighlight onPress={() => { this.modal.toggle() } }>
+          <Text>Hide</Text>
         </TouchableHighlight>
-      </View>
+      </MyModal>
     );
   }
 }

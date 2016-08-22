@@ -1,4 +1,3 @@
 import MyModal from './Controls/MyModal';
-export {
-    MyModal
-};
+import MyDrawer from './Controls/MyDrawer';
+export {MyModal, MyDrawer};
