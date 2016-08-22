@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { DrawerLayoutAndroid, Text, View, TouchableHighlight } from 'react-native';
 
 import {MyDrawer} from './Controls';
 

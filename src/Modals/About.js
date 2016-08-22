@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Text, View, TouchableHighlight } from 'react-native';
+
 import {MyModal} from './../Controls';
 
 class About extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DrawerLayoutAndroid, Text, View, TouchableHighlight } from 'react-native';
+import {DrawerLayoutAndroid} from 'react-native';
 
 class MyDrawer extends Component {
   showMenu() {
