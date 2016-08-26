@@ -5,24 +5,24 @@ class MyModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { modalVisible: false };
+    this.state = { isVisible: false };
   }
 
-  _setModalVisible(visible) {
-    this.props.app.drawer.hideMenu();
-    this.setState({ modalVisible: visible });
+  _setIsVisible(visible) {
+    this.props.app.drawer.hide();
+    this.setState({ isVisible: visible });
   }
 
   show() {
-    this._setModalVisible(true)
+    this._setIsVisible(true)
   }
 
   hide() {
-    this._setModalVisible(false)
+    this._setIsVisible(false)
   }
 
   toggle() {
-    this._setModalVisible(!this.state.modalVisible)
+    this._setIsVisible(!this.state.isVisible)
   }
 
   render() {
@@ -36,7 +36,7 @@ class MyModal extends Component {
         <Modal
           animationType={"slide"}
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.state.isVisible}
           onRequestClose={() => {
             this.hide();
           } }>

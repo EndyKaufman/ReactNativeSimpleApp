@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import {Text, View } from 'react-native';
+import {Text, View, Navigator, TouchableHighlight } from 'react-native';
 
-class Start extends Component {
-  render() {
+import {MyLayout} from './../Components';
+
+class Board extends MyLayout {
+  _render() {
     let {
       app
     } = this.props;
@@ -15,4 +17,4 @@ class Start extends Component {
   }
 }
 
-export default Start;
+export default Board;
