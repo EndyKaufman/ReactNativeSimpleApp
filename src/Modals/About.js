@@ -6,10 +6,11 @@ import {MyModal} from './../Components';
 class About extends Component {
   render() {
     let {
-      app
+      app,
+      title
     } = this.props;
     return (
-      <MyModal app={app} title="About" ref={(modal) => { this.modal = modal } }>
+      <MyModal app={app} title={title} ref={(modal) => { this.modal = modal } }>
         <Text>About this app!</Text>
         <TouchableHighlight onPress={() => { this.modal.toggle() } }>
           <Text>Hide</Text>

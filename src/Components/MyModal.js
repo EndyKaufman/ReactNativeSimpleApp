@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, View, Text, TouchableHighlight } from 'react-native';
 
+import MyNavigationItem from './MyNavigationItem';
+
 class MyModal extends Component {
 
   constructor(props) {
@@ -9,7 +11,6 @@ class MyModal extends Component {
   }
 
   _setIsVisible(visible) {
-    this.props.app.drawer.hide();
     this.setState({ isVisible: visible });
   }
 
@@ -44,9 +45,8 @@ class MyModal extends Component {
             {children}
           </View>
         </Modal>
-        <TouchableHighlight onPress={() => { this.show(); } }>
-          <Text>{title}</Text>
-        </TouchableHighlight>
+        <MyNavigationItem app={app} onPress={() => { this.show(); } } title={title}>
+        </MyNavigationItem>
       </View>
     );
   }

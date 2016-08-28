@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import {DrawerLayoutAndroid} from 'react-native';
 
 class MyDrawer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { activeLayout: props.activeLayout };
-  }
-
   show() {
     this.drawer.openDrawer();
   }
@@ -18,7 +13,7 @@ class MyDrawer extends Component {
   render() {
     let {
       app,
-      layouts,
+      children,
       navigation
     } = this.props;
     return (
@@ -27,7 +22,7 @@ class MyDrawer extends Component {
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => navigation}>
-        {layouts}
+        {children}
       </DrawerLayoutAndroid>
     )
   }
