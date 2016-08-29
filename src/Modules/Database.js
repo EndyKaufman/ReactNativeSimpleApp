@@ -84,8 +84,10 @@ class Database extends Component {
 
     errorCB(err) {
         console.log("error: ", err);
-        //this.state.progress.push("Error: " + (err.message || err));  
-        //this.setState(this.state);
+        if (this.props._isMounted) {
+            this.state.progress.push("Error: " + (err.message || err));
+            this.setState(this.state);
+        }
         return false;
     }
 
@@ -99,8 +101,10 @@ class Database extends Component {
     }
 
     closeCB() {
-        this.state.progress.push("Database CLOSED");
-        this.setState(this.state);
+        if (this.props._isMounted) {
+            this.state.progress.push("Database CLOSED");
+            this.setState(this.state);
+        }
     }
 
     deleteCB() {
@@ -109,7 +113,12 @@ class Database extends Component {
         this.setState(this.state);
     }
 
+    componentDidMount() {
+        this.props._isMounted=true;
+    }
+
     componentWillUnmount() {
+        this.props._isMounted=false;
         this.closeDatabase();
     }
 
@@ -129,13 +138,9 @@ class Database extends Component {
             function (error) {
                 console.log("received version error:", error);
                 that.state.progress.push("Database not yet ready ... populating data");
-                console.log('you');
                 that.setState(that.state);
-                console.log('you2');
                 db.transaction((tx) => { that.populateDB(tx) }, (err) => { that.errorCB(err) }, function () {
-                    console.log('1');
                     that.state.progress.push("Database populated ... executing query ...");
-                    console.log('2');
                     that.setState(that.state);
                     db.transaction((tx) => { that.queryEmployees(tx) }, (err) => { that.errorCB(err) }, function () {
                         console.log("Transaction is now finished");
@@ -249,12 +254,16 @@ class Database extends Component {
         var that = this;
         if (db) {
             console.log("Closing database ...");
-            that.state.progress.push("Closing database");
-            that.setState(that.state);
+            if (that.props._isMounted) {
+                that.state.progress.push("Closing database");
+                that.setState(that.state);
+            }
             db.close(() => { that.closeCB() }, (err) => { that.errorCB(err) });
         } else {
-            that.state.progress.push("Database was not OPENED");
-            that.setState(that.state);
+            if (that.props._isMounted) {
+                that.state.progress.push("Database was not OPENED");
+                that.setState(that.state);
+            }
         }
     }
 
