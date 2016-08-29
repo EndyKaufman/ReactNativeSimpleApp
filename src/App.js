@@ -4,6 +4,8 @@ import {Actions, Scene, Router} from 'react-native-router-flux';
 
 import {MyDrawer, MyNavigationItem} from './Components';
 
+import Database from './Modules/Database';
+
 import {About} from './Modals';
 
 import {Category, Items} from './Layouts/Catalog';
@@ -17,14 +19,7 @@ class App extends Component {
         <About app={this} title="About"/>
         <MyNavigationItem app={this} title="Catalog" onPress={() => { Actions.catalog({ type: 'reset' }) } }/>
         <MyNavigationItem app={this} title="Index" onPress={() => { Actions.index({ type: 'reset' }) } }/>
-        <MyNavigationItem app={this} title="Category" onPress={() => {
-          Actions.catalog({ type: 'reset' });
-          Actions.catalogCategory({});
-        } }/>
-        <MyNavigationItem app={this} title="Items" onPress={() => {
-          Actions.catalog({ type: 'reset' });
-          Actions.catalogItems({});
-        } }/>
+        <MyNavigationItem app={this} title="Database" onPress={() => { Actions.database({ type: 'reset' }) } }/>
       </View>
     );
     return (
@@ -38,6 +33,7 @@ class App extends Component {
               <Scene key="catalogCategory" component={Category} title="Category" initial={true}/>
               <Scene key="catalogItems" component={Items} title="Items" />
             </Scene>
+            <Scene key="database" component={Database} title="Database"  hideNavBar hideTabBar/>
           </Scene>
         </Router>
       </MyDrawer>
