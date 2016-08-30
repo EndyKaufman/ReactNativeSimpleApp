@@ -11,8 +11,13 @@ import {About} from './Modals';
 import {Category, Items} from './Layouts/Catalog';
 import {Index} from './Layouts/Index';
 
+import NativeMigration from './Database/NativeMigration';
+
 class App extends Component {
   render() {
+    console.log('hoi');
+    NativeMigration.up();
+
     console.log(Actions);
     var navigation = (
       <View>
@@ -28,7 +33,7 @@ class App extends Component {
         navigation={navigation}>
         <Router>
           <Scene key="root">
-            <Scene key="index" component={Index} title="Index" initial={true} />
+            <Scene key="index" component={Index} title="Index13" initial={true} />
             <Scene key="catalog">
               <Scene key="catalogCategory" component={Category} title="Category" initial={true}/>
               <Scene key="catalogItems" component={Items} title="Items" />
