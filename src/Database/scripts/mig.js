@@ -120,7 +120,7 @@
             .then(function () {
                 return prod.migrate.latest()
                     .then(function (migrations) {
-                        return prod.migrate.rollback().then(function (migrations) {
+                        return prod.migrate.rollback().then(function (rollback_migrations) {
                             update_NativeMigration_file(migrations).then(function (data) {
                                 console.log('ok');
                                 destroy();

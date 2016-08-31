@@ -20,7 +20,7 @@ cd android && ./gradlew installDebug && cd .. && npm start
 react-native run-android
 
 ## migration
-npm run mig add
+npm run mig add <comment>
 npm run mig apply
 npm run mig rollback
 

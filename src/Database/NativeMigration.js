@@ -2,8 +2,11 @@ import React from 'react';
 
 /** migration list start */
 import mig_20160831205834_items_create_table from './migrations/20160831205834_items_create_table';
-var migrations = [mig_20160831205834_items_create_table];
-var migrations_names = ["20160831205834_items_create_table"];
+import mig_20160831235347_items_add_fields from './migrations/20160831235347_items_add_fields';
+var migrations= [mig_20160831205834_items_create_table,
+mig_20160831235347_items_add_fields];
+var migrations_names= ["20160831205834_items_create_table",
+"20160831235347_items_add_fields"];
 /** migration list end */
 
 class NativeMigration {
