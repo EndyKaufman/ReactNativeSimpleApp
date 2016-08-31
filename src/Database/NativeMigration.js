@@ -1,11 +1,17 @@
 import React from 'react';
 
 /** migration list start */
-var migrations = [];
-var migrations_names = [];
+import mig_20160831205834_items_create_table from './migrations/20160831205834_items_create_table';
+var migrations = [mig_20160831205834_items_create_table];
+var migrations_names = ["20160831205834_items_create_table"];
 /** migration list end */
 
 class NativeMigration {
+
+    constructor() {
+        var vm = this;
+        vm.debug = false;
+    }
 
     fakePromise() {
         var vm = this;
@@ -35,11 +41,17 @@ class NativeMigration {
 
     createTable(db) {
         return db.run(
-            db.schema.createTableIfNotExists('migrations', (table) => {
+            db.schema.createTable('migrations', (table) => {
                 table.increments();
                 table.string('name');
                 table.timestamps();
             })
+        );
+    }
+
+    insert(db, values) {
+        return db.run(
+            db.query('migrations').insert(values).returning('*')
         );
     }
 
@@ -49,10 +61,77 @@ class NativeMigration {
         );
     }
 
+    applyMigration(db, migration) {
+        var vm = this;
+        var name = migration.name;
+        var up = migration.up;
+        var down = migration.down;
+
+        return new Promise((resolve, reject) => {
+            if (vm.debug)
+                console.log('Sub query count in migration:' + name + ' = ' + up.length);
+            if (up.length > 0) {
+                if (vm.debug)
+                    console.log('Apply migration:' + name);
+                var out = [];
+                for (let i = 0; i < up.length; i++) {
+                    out.push(db.run(up[i]));
+                }
+                Promise.all(out).then((results) => {
+                    vm.insert(db, { name: name }).then((values) => {
+                        if (vm.debug)
+                            console.log('Success! Apply migration:' + name);
+                        resolve(values);
+                    }).catch((err) => {
+                        if (vm.debug)
+                            console.log('Fail! Apply migration:' + name);
+                        reject(err);
+                    })
+                }).catch((err) => {
+                    reject(err);
+                });
+            }
+            else
+                resolve([]);
+        });
+    }
+
+    applyNewMigrations(db) {
+        var vm = this;
+        return new Promise((resolve, reject) => {
+            vm.getNewMigrations(db).then((newMigrations) => {
+                if (vm.debug)
+                    console.log('New migration count = ' + newMigrations.length);
+                if (newMigrations.length > 0) {
+                    if (vm.debug)
+                        console.log('Apply all new migrations');
+                    var out = [];
+                    for (let i = 0; i < newMigrations.length; i++) {
+                        out.push(vm.applyMigration(db, newMigrations[i]));
+                    }
+                    Promise.all(out).then((results) => {
+                        if (vm.debug)
+                            console.log('Success! Apply all new migrations');
+                        resolve(results);
+                    }).catch((err) => {
+                        if (vm.debug)
+                            console.log('Fail! Apply all new migrations');
+                        reject(err);
+                    });
+
+                }
+                else
+                    resolve([]);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     getNewMigrations(db) {
         var vm = this;
-        var fileMigrations = vm.getAllFormFiles();
-        var newMigration = [];
+        var fileMigrations = vm.getAllFormFiles(db);
+        var newMigrations = [];
         return new Promise((resolve, reject) => {
             vm.getList(db).then((results) => {
                 var oldMigrations = [];
@@ -64,21 +143,41 @@ class NativeMigration {
                 }
                 for (let i = 0; i < fileMigrations.length; i++) {
                     if (oldMigrations.indexOf(fileMigrations[i].name) === -1) {
-                        newMigration.push(fileMigrations[i]);
+                        newMigrations.push(fileMigrations[i]);
                     }
                 }
-                resolve(newMigration);
-            }, (err) => {
-                if (err.message.indexOf('no such table: migrations') !== -1)
-                    vm.createTable(db).then((data) => {
-                        vm.getNewMigrations(db).then((newMigration) => {
-                            resolve(newMigration);
-                        }, (err) => {
-                            reject(err)
-                        })
+                if (vm.debug) {
+                    console.log(['fileMigrations:', fileMigrations]);
+                    console.log(['oldMigrations:', oldMigrations]);
+                    console.log(['newMigrations:', newMigrations]);
+                }
+                resolve(newMigrations);
+            }).catch((err) => {
+                if (vm.debug) {
+                    console.log('Try create migrations table');
+                }
+                vm.createTable(db).then(() => {
+                    if (vm.debug) {
+                        console.log('Try get new migrations');
+                    }
+                    vm.getNewMigrations(db).then((items) => {
+                        if (vm.debug) {
+                            console.log(['newMigrations:', items]);
+                            console.log('Success! Try get new migrations');
+                        }
+                        resolve(items);
+                    }, (err) => {
+                        if (vm.debug) {
+                            console.log('Fail! Try get new migrations');
+                        }
+                        reject(err);
                     })
-                else
-                    reject(err);
+                }).catch((err) => {
+                    if (vm.debug) {
+                        console.log('Fail! Try create migrations table');
+                    }
+                    reject(err)
+                })
             });
         });
     }

@@ -3,7 +3,6 @@ import React from 'react';
 import NativeMigration from './NativeMigration';
 
 var Knex = require('./../../node_modules/knex/build/knex.js');
-
 var SQLite = require('react-native-sqlite-storage');
 
 class NativeDatabase {
@@ -25,18 +24,23 @@ class NativeDatabase {
     open() {
         var vm = this;
         return new Promise((resolve, reject) => {
-
-            SQLite.DEBUG(vm.debug);
-            SQLite.enablePromise(true);
-
-            if (vm.db == null)
+            if (vm.db === null) {
+                vm.db = true;
+                NativeMigration.debug = vm.debug;
+                SQLite.DEBUG(vm.debug);
+                SQLite.enablePromise(true);
                 vm.db = SQLite.openDatabase("app.db", "1.0", "SQLite App Database", 200000,
                     () => {
+                        if (vm.debug)
+                            console.log('Success! Open database');
                         resolve(vm.db);
                     }, (err) => {
+                        if (vm.debug)
+                            console.log('Fail! Open database');
                         reject(err);
                     }
                 );
+            }
             else
                 resolve(vm.db);
         });
@@ -62,8 +66,9 @@ class NativeDatabase {
         return new Promise((resolve, reject) => {
             if (vm._migrationsIsRunned == false) {
                 vm._migrationsIsRunned = true;
-                NativeMigration.getNewMigrations(vm).then((migrations) => {
-                    console.log(migrations);
+                NativeMigration.applyNewMigrations(vm).then((migrations) => {
+                    if (vm.debug)
+                        console.log(['Migrations:', migrations]);
                     resolve(migrations);
                 }).catch((err) => {
                     reject(err);
@@ -78,32 +83,31 @@ class NativeDatabase {
         var vm = this;
         return new Promise((resolve, reject) => {
             vm.open().then((db) => {
-                if (vm.debug)
-                    console.log('Success! Open database');
                 vm._applyMigrations(db).then(() => {
                     if (vm.debug)
                         console.log('Success! Run apply migrations');
                     var sqlParams = obj.toSQL();
-                    if (vm.debug)
+                    if (vm.debug) {
                         console.log('Run query:' + obj.toString());
-                    db.executeSql(obj.toString(), [],//sqlParams.sql, sqlParams.bindings,
-                        (db, results) => {
-                            if (vm.debug)
+                    }
+                    db.executeSql(obj.toString()).then(
+                        (results) => {
+                            if (vm.debug) {
                                 console.log('Success! Run query:' + obj.toString());
-                            resolve(results);
-                        }, (err) => {
+                                console.log(['Results:', results[0]]);
+                            }
+                            resolve(results[0]);
+                        }).catch((err) => {
                             if (vm.debug)
                                 console.log('Fail! Run query:' + obj.toString());
                             reject(err);
                         });
-                }, (err) => {
+                }).catch((err) => {
                     if (vm.debug)
                         console.log('Fail! Run apply migrations');
                     reject(err);
                 })
             }).catch((err) => {
-                if (vm.debug)
-                    console.log('Fail! Open database');
                 reject(err);
             })
         });

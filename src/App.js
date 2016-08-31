@@ -15,7 +15,7 @@ import NativeDatabase from './Database/NativeDatabase';
 
 class App extends Component {
   render() {
-    console.log('hoi');
+    
     NativeDatabase.debug = true;
     NativeDatabase.run(
       /*NativeDatabase.schema.createTable('users', function (table) {
@@ -24,7 +24,8 @@ class App extends Component {
         table.timestamps();
       })*/
       //NativeDatabase.schema.renameTable('users', 'old_users')
-      NativeDatabase.query('old_users').insert({name: 'Slaughterhouse Five'})
+      //NativeDatabase.query('old_users').insert({name: 'Slaughterhouse Five'})
+      NativeDatabase.query.select().table('migrations')
     ).then((data) => {
       console.log(data);
     }).catch((err) => {
