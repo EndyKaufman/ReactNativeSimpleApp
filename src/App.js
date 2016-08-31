@@ -11,12 +11,25 @@ import {About} from './Modals';
 import {Category, Items} from './Layouts/Catalog';
 import {Index} from './Layouts/Index';
 
-import NativeMigration from './Database/NativeMigration';
+import NativeDatabase from './Database/NativeDatabase';
 
 class App extends Component {
   render() {
     console.log('hoi');
-    NativeMigration.up();
+    NativeDatabase.debug = true;
+    NativeDatabase.run(
+      /*NativeDatabase.schema.createTable('users', function (table) {
+        table.increments();
+        table.string('name');
+        table.timestamps();
+      })*/
+      //NativeDatabase.schema.renameTable('users', 'old_users')
+      NativeDatabase.query('old_users').insert({name: 'Slaughterhouse Five'})
+    ).then((data) => {
+      console.log(data);
+    }).catch((err) => {
+      console.log(err);
+    });
 
     console.log(Actions);
     var navigation = (
