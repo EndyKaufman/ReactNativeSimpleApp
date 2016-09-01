@@ -11,21 +11,21 @@ import {About} from './Modals';
 import {Category, Items} from './Layouts/Catalog';
 import {Index} from './Layouts/Index';
 
-import NativeDatabase from './Database/NativeDatabase';
+import db from './Database/NativeDatabase';
 
 class App extends Component {
   render() {
-    
-    NativeDatabase.debug = true;
-    NativeDatabase.run(
-      /*NativeDatabase.schema.createTable('users', function (table) {
+
+    db.debug = true;
+    db.run(
+      /*db.schema.createTable('users', function (table) {
         table.increments();
         table.string('name');
         table.timestamps();
       })*/
-      //NativeDatabase.schema.renameTable('users', 'old_users')
-      //NativeDatabase.query('old_users').insert({name: 'Slaughterhouse Five'})
-      NativeDatabase.query.select().table('migrations')
+      //db.schema.renameTable('users', 'old_users')
+      //db.query('old_users').insert({name: 'Slaughterhouse Five'})
+      db.query.select().table('migrations')
     ).then((data) => {
       console.log(data);
     }).catch((err) => {
