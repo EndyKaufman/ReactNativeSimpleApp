@@ -11,27 +11,8 @@ import {About} from './Modals';
 import {Category, Items} from './Layouts/Catalog';
 import {Index} from './Layouts/Index';
 
-import db from './Database/NativeDatabase';
-
 class App extends Component {
   render() {
-
-    db.debug = true;
-    db.run(
-      /*db.schema.createTable('users', function (table) {
-        table.increments();
-        table.string('name');
-        table.timestamps();
-      })*/
-      //db.schema.renameTable('users', 'old_users')
-      //db.query('old_users').insert({name: 'Slaughterhouse Five'})
-      db.query.select().table('migrations')
-    ).then((data) => {
-      console.log(data);
-    }).catch((err) => {
-      console.log(err);
-    });
-
     console.log(Actions);
     var navigation = (
       <View>
